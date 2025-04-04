@@ -8,10 +8,11 @@ export default defineConfig({
     outDir: resolve(__dirname, 'dist'),
     rollupOptions: {
       input: {
-        popup: join(__dirname, 'src/popup/popup.ts'),
+        "popup/popup": join(__dirname, 'src/popup/popup.ts'),
+        "content": join(__dirname, 'src/content/content.ts'),
       },
       output: {
-        entryFileNames: 'assets/[name].js'
+        entryFileNames: '[name].js'
       },
     }
   },
