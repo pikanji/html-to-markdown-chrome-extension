@@ -1,7 +1,7 @@
 /// <reference types="chrome"/>
 
-document.getElementById('exportButton')?.addEventListener('click', () => {
-  console.log('exportButton clicked');
+// Function to get selected text from the active tab
+function getSelectedTextFromActiveTab() {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
     if (tabs[0]?.id) {
       // Send message to content script to get selected text
@@ -16,4 +16,10 @@ document.getElementById('exportButton')?.addEventListener('click', () => {
       });
     }
   });
+}
+
+// Get selected text when popup loads
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('Popup loaded');
+  getSelectedTextFromActiveTab();
 }); 
