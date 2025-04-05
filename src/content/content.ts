@@ -1,6 +1,32 @@
+// Import Turndown for HTML to Markdown conversion
+import TurndownService from 'turndown';
+
 // Function to get the selected text from the page
 function getSelectedText(): string {
   return window.getSelection()?.toString() || '';
+}
+
+// Function to get the selected HTML from the page
+function getSelectedHTML(): string {
+  const selection = window.getSelection();
+  if (!selection || selection.rangeCount === 0) {
+    return '';
+  }
+
+  const range = selection.getRangeAt(0);
+  const container = document.createElement('div');
+  container.appendChild(range.cloneContents());
+  return container.innerHTML;
+}
+
+// Function to convert HTML to Markdown
+function convertHTMLToMarkdown(html: string): string {
+  const turndownService = new TurndownService({
+    headingStyle: 'atx',
+    codeBlockStyle: 'fenced'
+  });
+  
+  return turndownService.turndown(html);
 }
 
 // Function to copy text to clipboard
@@ -42,14 +68,20 @@ function copyToClipboard(text: string): boolean {
 chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
   if (message.action === 'getSelectedText') {
     console.log('getSelectedText called!');
+    
+    // Get both plain text and HTML selection
     const selectedText = getSelectedText();
+    const selectedHTML = getSelectedHTML();
     
     if (selectedText) {
-      // Copy the selected text to clipboard
-      const success = copyToClipboard(selectedText);
-      sendResponse({ success, text: selectedText });
+      // Convert HTML to Markdown
+      const markdown = convertHTMLToMarkdown(selectedHTML);
+      
+      // Copy the Markdown to clipboard
+      const success = copyToClipboard(markdown);
+      sendResponse({ success, text: markdown, originalText: selectedText });
     } else {
-      sendResponse({ success: false, text: '' });
+      sendResponse({ success: false, text: '', originalText: '' });
     }
   }
   // Return true to indicate we'll respond asynchronously
