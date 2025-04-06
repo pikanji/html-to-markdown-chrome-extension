@@ -1,8 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "Web Page to Markdown Exporter",
+  "name": "HTML to Markdown Converter",
   "version": "1.0",
-  "description": "Scrape web pages and download them as Markdown files.",
+  "description": "Convert selected HTML content to Markdown format with a single click.",
+  "author": "Kanji Furuhashi",
+  "homepage_url": "https://github.com/yourusername/html-to-markdown-extension",
   "permissions": [
     "activeTab",
     "scripting"
@@ -21,5 +23,12 @@
       "js": ["content.js"],
       "type": "module"
     }
-  ]
+  ],
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+  "minimum_chrome_version": "88",
+  "offline_enabled": true
 }
