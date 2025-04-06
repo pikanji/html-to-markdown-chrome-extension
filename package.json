@@ -4,11 +4,14 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "tsc && vite build"
+    "build-dev": "vite build --mode development",
+    "build-watch": "vite build --mode development --watch",
+    "build-prod": "tsc && vite build --mode production"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.313",
     "@types/turndown": "^5.0.5",
+    "terser": "^5.39.0",
     "typescript": "~5.7.2",
     "vite": "^6.2.0"
   },
