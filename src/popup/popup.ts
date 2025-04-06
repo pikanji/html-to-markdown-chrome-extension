@@ -1,5 +1,3 @@
-/// <reference types="chrome"/>
-
 // Function to get selected text from the active tab and copy it to clipboard
 function getSelectedTextFromActiveTab() {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
@@ -7,13 +5,10 @@ function getSelectedTextFromActiveTab() {
       // Send message to content script to get selected text and copy it
       chrome.tabs.sendMessage(tabs[0].id, { action: 'getSelectedText' }, (response) => {
         if (response) {
+          // Show result message in the popup
           if (response.success && response.text) {
-            console.log('Text copied to clipboard:', response.text);
-            // Show success message in the popup
             showMessage('Text copied to clipboard!', 'success');
           } else {
-            console.log('No text selected or copy failed');
-            // Show error message in the popup
             showMessage('No text selected', 'error');
           }
         }
@@ -50,6 +45,5 @@ function showMessage(message: string, type: 'success' | 'error') {
 
 // Get selected text when popup loads
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('Popup loaded');
   getSelectedTextFromActiveTab();
 }); 

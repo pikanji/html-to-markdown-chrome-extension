@@ -83,8 +83,6 @@ function copyToClipboard(text: string): boolean {
 // Listen for messages from the popup
 chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
   if (message.action === 'getSelectedText') {
-    console.log('getSelectedText called!');
-    
     // Get both plain text and HTML selection
     const selectedText = getSelectedText();
     const selectedHTML = getSelectedHTML();
@@ -95,9 +93,9 @@ chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
       
       // Copy the Markdown to clipboard
       const success = copyToClipboard(markdown);
-      sendResponse({ success, text: markdown, originalText: selectedText });
+      sendResponse({ success, text: markdown});
     } else {
-      sendResponse({ success: false, text: '', originalText: '' });
+      sendResponse({ success: false, text: ''});
     }
   }
   // Return true to indicate we'll respond asynchronously
