@@ -30,5 +30,12 @@
     "128": "images/icon128.png"
   },
   "minimum_chrome_version": "88",
-  "offline_enabled": true
+  "offline_enabled": true,
+  "options_page": "privacy-policy.html",
+  "web_accessible_resources": [
+    {
+      "resources": ["privacy-policy.html"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }
