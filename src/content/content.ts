@@ -21,9 +21,25 @@ function getSelectedHTML(): string {
 
 // Function to convert HTML to Markdown
 function convertHTMLToMarkdown(html: string): string {
+  console.log('Selected HTML:', html);
+
   const turndownService = new TurndownService({
     headingStyle: 'atx',
     codeBlockStyle: 'fenced'
+  });
+  
+  // Add a custom rule to handle p tags inside li elements
+  turndownService.addRule('paragraphInListItem', {
+    filter: function (node) {
+      // Check if this is a p element that is a direct child of an li element
+      return node.nodeName === 'P' && 
+             node.parentNode !== null && 
+             node.parentNode.nodeName === 'LI';
+    },
+    replacement: function (content) {
+      // Return the content of the p tag without the p tag itself
+      return content;
+    }
   });
   
   return turndownService.turndown(html);
